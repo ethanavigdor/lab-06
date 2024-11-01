@@ -1,6 +1,6 @@
 ---
 title: "Lab 06 - Functions and iterations"
-author: "INSERT NAME HERE"
+author: "Ethan Avigdor"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -14,6 +14,7 @@ library(ggplot2)
 ```
 
 ```{r diamon_rename}
+
 diamonds <- diamonds %>% rename(
     depth_pct = depth,
     length_mm = x,
@@ -21,15 +22,26 @@ diamonds <- diamonds %>% rename(
     depth_mm = z,
     table_pct = table
   )
+
 ```
 
 
 ## Exercise 1
 
 ```{r}
-# Do some preliminary investigations & cleaning
 
 
+diamonds%>%group_by(color)%>%summarise(mean_carat=mean(carat),
+                                       mean_price=mean(price),
+                                       mean_table_pct=mean(table_pct))
+
+diamonds%>%group_by(clarity)%>%summarise(mean_carat=mean(carat),
+                                       mean_price=mean(price),
+                                       mean_table_pct=mean(table_pct))
+
+diamonds%>%group_by(cut)%>%summarise(mean_carat=mean(carat),
+                                       mean_price=mean(price),
+                                  mean_table_pct=mean(table_pct))
 
 
 ```
@@ -39,21 +51,20 @@ diamonds <- diamonds %>% rename(
 
 ```{r}
 
-diamonds <- diamonds %>%
-  mutate(table_mm = table_pct * width_mm / 100)
+
 
 # Overall table_mm arithmetic mean?
-
-
-
+diamonds <- diamonds %>%
+  mutate(table_mm = table_pct * width_mm / 100)
+diamonds%>%summarise(mean_table_mm=mean(table_mm))
 
 
 
 # table_mm arithmetic mean within each clarity category
 
 
-
-
+diamonds%>%group_by(clarity)%>%summarise(mean_table_mm=mean(table_mm))
+#mean table_mm is inversely proportional to the clarity of the  diamonds so the lowest clarity has the highest average table_mm and the highest clarity has the lowest average table_mm
 
 
 ```
